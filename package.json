@@ -1,6 +1,9 @@
 {
   "name": "WebdriverIOExample",
   "type": "module",
+  "scripts": {
+    "test": "npx wdio run ./wdio.conf.js"
+  },
   "devDependencies": {
     "@rpii/wdio-html-reporter": "^7.7.1",
     "@testing-library/webdriverio": "^3.2.1",

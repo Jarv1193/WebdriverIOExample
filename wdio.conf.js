@@ -1,4 +1,4 @@
-import { ReportAggregator, HtmlReporter} from '@rpii/wdio-html-reporter' ;
+import { ReportAggregator, HtmlReporter } from '@rpii/wdio-html-reporter';
 
 export const config = {
     //
@@ -52,7 +52,14 @@ export const config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            args: [
+                // No usar '--headless', para que el navegador se ejecute en primer plano
+                '--start-maximized', // Iniciar maximizado
+                '--disable-gpu' // Opcional, para evitar problemas con la aceleración gráfica en algunos sistemas
+            ]
+        }
     }],
 
     //
@@ -62,7 +69,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -111,7 +118,7 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'jasmine',
-    
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -131,7 +138,7 @@ export const config = {
             outputDir: './reports/html-reports/',
             filename: 'report.html',
             reportTitle: 'Test Report Title',
-            
+
             //to show the report in a browser when done
             showInBrowser: true,
 
@@ -140,7 +147,7 @@ export const config = {
 
             // to use the template override option, can point to your own file in the test project:
             // templateFilename: path.resolve(__dirname, '../template/wdio-html-reporter-alt-template.hbs'),
-            
+
             // to add custom template functions for your custom template:
             // templateFuncs: {
             //     addOne: (v) => {
@@ -160,7 +167,7 @@ export const config = {
         // The Jasmine framework allows interception of each assertion in order to log the state of the application
         // or website depending on the result. For example, it is pretty handy to take a screenshot every time
         // an assertion fails.
-        expectationResultHandler: function(passed, assertion) {
+        expectationResultHandler: function (passed, assertion) {
             // do something
         }
     },

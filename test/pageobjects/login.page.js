@@ -2,39 +2,52 @@ import { $ } from '@wdio/globals'
 import Page from './page.js';
 
 /**
- * sub page containing specific selectors and methods for a specific page
+ * Página que contiene los selectores y metodos especificos para la pagina de autenticacion del sitio
  */
 class LoginPage extends Page {
     /**
-     * define selectors using getter methods
+     * define los selectores usando metodos getter 
      */
-    get inputUsername () {
-        return $('#username');
+    get inputUsuario () {
+        return $('#user-name');
     }
 
-    get inputPassword () {
+    get inputContraseña () {
         return $('#password');
     }
 
-    get btnSubmit () {
-        return $('button[type="submit"]');
+    get btnLogin () {
+        return $('[type="submit"]');
+    }
+
+    get labelErrorUsuarioBloqueado () {
+        return $('[data-test="error"]')
     }
 
     /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
+     * @method autenticacionAlSitio Metodo para autenticarse al sitio web
+     * @param {String} usuario Nombre del usuario para autenticarse al sitio web
+     * @param {String} contraseña Contraseña del usuario para autenticarse al sitio web
      */
-    async login (username, password) {
-        await this.inputUsername.setValue(username);
-        await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
+    async autenticacionAlSitio (usuario, contraseña) {
+        await this.inputUsuario.setValue(usuario); // Mandamos escribir al elemento web el usuario
+        await this.inputContraseña.setValue(contraseña); // Mandamos escribir al elemento web la contraseña
+        await this.btnLogin.click(); // Le damos click al boton de autenticación del sitio web
     }
 
     /**
-     * overwrite specific options to adapt it to page object
+     * @method verificarUsuarioBloqueado Metodo para vericar que el usuario ingresado esta bloqueado y no puede ingresar al sistema
+     */
+    async verificarUsuarioBloqueado(){
+        await expect(this.labelErrorUsuarioBloqueado)
+        .toHaveText('Epic sadface: Sorry, this user has been locked out.'); // verificamos que el texto sea el error por estar bloqueado
+    }
+
+    /**
+     * Sobreescribimos especificamente la opcion que necesitamos para adaptar el objeto página 
      */
     open () {
-        return super.open('login');
+        return super.open('https://www.saucedemo.com/');
     }
 }
 
